@@ -135,6 +135,6 @@ def multi_image(mat_list, str_list, vmin = -0.1, vmax = 0.1, cmap = "Spectral"):
         plt.colorbar()
         
     manager = plt.get_current_fig_manager()
-    manager.resize(*manager.window.maxsize())
+    # manager.resize(*manager.window.maxsize())
     plt.tight_layout()
     plt.show()
