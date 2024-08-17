@@ -339,13 +339,10 @@ def average_reflection_at_frequencies(dataset, parameter, experiment, mask):
 #%% EXAMPLE OF PROCESSING, functions usage. SHOWN FOR 2 EXAMPLES directory
 
 # Usage
-
-# /lung_healthy/Sample Frequency Sweep - Weight 1/2024-04-09 15-52-55
-def convert_2_Image(data, attr_name, output_path, typeData='RCOEF', cmap='Spectral'):
+def convert_2_Image(data, attr_name, output_path, keys='RCOEF', cmap='Spectral'):
     print("CONVERT DATA TO IMAGE")
     for attr in attr_name:
-        print(data[attr].keys())
-        dataAttr = data[attr][typeData]
+        dataAttr = data[attr][keys]
         lenFrequency = len(dataAttr)
         for frequency in range(lenFrequency):
             dataImg = dataAttr[frequency]
@@ -355,24 +352,6 @@ def convert_2_Image(data, attr_name, output_path, typeData='RCOEF', cmap='Spectr
             fig = plt.imshow(dataImg, cmap=cmap, vmin=0.75, vmax=0.97)
             plt.axis('off')
             plt.savefig(os.path.join(fileNameOutput, str(data[attr]['frequencies'][frequency])+'.jpg'))
-    
-    # HealthyW2 = data['Sample Frequency Sweep - Weight 2'][typeData][100]
-    # HealthyW3 = data['Sample Frequency Sweep - Weight 3'][typeData][100]
-    # HealthyW1_r = data['Sample Frequency Sweep - Weight 1 - repeat'][param_to_plot][100]
-    # HealthyW2_r = data['Sample Frequency Sweep - Weight 2 - repeat'][param_to_plot][100]
-    # HealthyW3_r = data['Sample Frequency Sweep - Weight 3 - repeat'][param_to_plot][100]
-    # Healthy_PF = data['Sample Frequency Sweep - Post sample'][param_to_plot][100]
-    # Healthy_POST_AIR = data['Air Frequency Sweep - Post sample'][param_to_plot][100]
-    # plot_list_healthy = [HealthyW1,HealthyW2,HealthyW3,HealthyW1_r,HealthyW2_r, HealthyW3_r, Healthy_PF, Healthy_POST_AIR]
-    # str_list_healthy = ['H_W1', 'H_W2', 'H_W3', 'H_W1_r', 'H_W2_r', 'H_W3_r', 'H_PS_FLUID', 'P_AIR']
-    # vf.multi_image_ROWCOL(plot_list_healthy, str_list_healthy, 1, 8, vmin=0.75, vmax=0.97, cmap='Spectral') 
-    
-    #%% PLOTTING CHANGE OF TISSUE IMAGES WITH LARGER LOAD
-
-    # W2r_W1r_healthy = HealthyW2_r - HealthyW1_r
-
-
-
 
 def main():
     base_directory = './Cornell_Vinmec_Data/Pilot_240409/' #directory with main experiment folders
@@ -385,152 +364,13 @@ def main():
                  'Sample Frequency Sweep - Post sample',
                  'Air Frequency Sweep - Post sample'
                 ]
-    healthy_exp = "lung_healthy"
-    tumor_exp = 'Lung_tumor'
-
-
-    #load and process primary dataset
-    # data_healthy = load_and_process_data(base_directory, healthy_exp)
-    data_tumor = load_and_process_data(base_directory, tumor_exp)
-
-    # calculate the derived dataset 
-    # dr_healthy = calculate_derived_parameters(data_healthy)
-    dr_tumor = calculate_derived_parameters(data_tumor)
-
+    typeData = "lung_healthy"
     output_path = '/Users/chivinhduong/Project/TissueImaging-VINUNI/output'
-    # convert_2_Image(dr_healthy, attr_name, output_path)
-    # convert_2_Image(dr_tumor, attr_name, output_path)
-
-    # param_to_plot = 'RCOEF'
-    # print(dr_healthy['Sample Frequency Sweep - Weight 1']['frequencies'])
-    # print(len(dr_healthy['Sample Frequency Sweep - Weight 1'][param_to_plot]))
-    # HealthyW1 = dr_healthy['Sample Frequency Sweep - Weight 1'][param_to_plot][1]
-    # HealthyW2 = dr_healthy['Sample Frequency Sweep - Weight 2'][param_to_plot][1]
-    # HealthyW3 = dr_healthy['Sample Frequency Sweep - Weight 3'][param_to_plot][1]
-    # HealthyW1_r = dr_healthy['Sample Frequency Sweep - Weight 1 - repeat'][param_to_plot][1]
-    # HealthyW2_r = dr_healthy['Sample Frequency Sweep - Weight 2 - repeat'][param_to_plot][1]
-    # HealthyW3_r = dr_healthy['Sample Frequency Sweep - Weight 3 - repeat'][param_to_plot][1]
-    # Healthy_PF = dr_healthy['Sample Frequency Sweep - Post sample'][param_to_plot][1]
-    # Healthy_POST_AIR = dr_healthy['Air Frequency Sweep - Post sample'][param_to_plot][1]
-
-
-    # plot_list_healthy = [HealthyW1,HealthyW2,HealthyW3,HealthyW1_r,HealthyW2_r, HealthyW3_r, Healthy_PF, Healthy_POST_AIR]
-    # str_list_healthy = ['H_W1', 'H_W2', 'H_W3', 'H_W1_r', 'H_W2_r', 'H_W3_r', 'H_PS_FLUID', 'P_AIR']
-
-
-    # vf.multi_image_ROWCOL(plot_list_healthy, str_list_healthy, 1, 8, vmin=0.75, vmax=0.97, cmap='Spectral') 
-
-    # #%% TUMOR
-    # param_to_plot = 'RCOEF'
-    # TumorW1 = dr_tumor['Sample Frequency Sweep - Weight 1'][param_to_plot][1]
-    # TumorW2 = dr_tumor['Sample Frequency Sweep - Weight 2'][param_to_plot][1]
-    # TumorW3 = dr_tumor['Sample Frequency Sweep - Weight 3'][param_to_plot][1]
-    # TumorW1_r = dr_tumor['Sample Frequency Sweep - Weight 1 - repeat'][param_to_plot][1]
-    # TumorW2_r = dr_tumor['Sample Frequency Sweep - Weight 2 - repeat'][param_to_plot][1]
-    # TumorW3_r = dr_tumor['Sample Frequency Sweep - Weight 3 - repeat'][param_to_plot][1]
-    # Tumor_PF = dr_tumor['Sample Frequency Sweep - Post sample'][param_to_plot][1]
-    # Tumor_POST_AIR = dr_tumor['Air Frequency Sweep - Post sample'][param_to_plot][1]
-
-    # plot_list_tumor = [TumorW1,TumorW2,TumorW3,TumorW1_r,TumorW2_r, TumorW3_r, Tumor_PF, Tumor_POST_AIR]
-    # str_list_tumor = ['T_W1', 'T_W2', 'T_W3', 'T_W1_r', 'T_W2_r', 'T_W3_r', 'T_PS_FLUID', 'P_AIR']
-
-    # vf.multi_image_ROWCOL(plot_list_tumor, str_list_tumor, 1, 8, vmin=0.75, vmax=0.97, cmap='Spectral') 
-
-    # #%% PLOTTING CHANGE OF TISSUE IMAGES WITH LARGER LOAD
-
-    # W2r_W1r_healthy = HealthyW2_r - HealthyW1_r
-    # W2r_W1r_tumor = TumorW2_r - TumorW1_r
-
-
-    # #plot_list = [W3_W1r_healthy, W3_W1r_tumor, W3_W1r_mixed]
-    # plot_list = [W2r_W1r_healthy,W2r_W1r_tumor ]
-    # str_list = ['W2_r - W1_r: Healthy', 'W2_r - W1_r: Tumor', 'W2_r - W1_r: Mixed']
-
-    # vf.multi_image(plot_list, str_list, vmin=-0.2, vmax=0.2, cmap='Spectral')
-    # #%%
-    # W3r_W1r_healthy = HealthyW3_r - HealthyW1_r
-    # W3r_W1r_tumor = TumorW3_r - TumorW1_r
-
-
-    # #plot_list = [W3_W1r_healthy, W3_W1r_tumor, W3_W1r_mixed]
-    # plot_list = [W3r_W1r_healthy,W3r_W1r_tumor]
-    # str_list = ['W3_r - W1_r: Healthy', 'W3_r - W1_r: Tumor', 'W3_r - W1_r: Mixed']
-
-    # vf.multi_image(plot_list, str_list, vmin=-0.2, vmax=0.2, cmap='Spectral')
-
-    # #%%
-    # #ANALYZING THE TISSUE AREA
-
-    # # Load your image data
-    # images_healthy, images_tumor= plot_list_healthy[:6], plot_list_tumor[:6]
-
-    # # Calculate and normalize tissue areas under different loads
-    # areas_healthy, normalized_area_healthy, masks_healthy = calculate_tissue_area(images_healthy)
-    # areas_tumor, normalized_area_tumor, masks_tumor = calculate_tissue_area(images_tumor)
-
-    # # Prepare plots
-    # # Load labels and titles
-    # load_labels = ['50', '100', '200', '50 repeat', '100 repeat', '200 repeat']
-    # titles = ['Healthy Tissue', 'Tumor Tissue', 'Mixed Tissue']
-    # load_labels = ['0.49', '0.98', '1.96'] #in Newtons
-    # loads = ['0.49','0.98','1.96', '0.49','0.98','1.96'] #in Newtons
-
-
-    # #%%PLOTTING THE MASKS first to see if it represents the tissue area well by checking original RCOEF maps
-    # #The goal of this is to make sure we are only selecting the tissue region for accurate calculation of 2D area
-
-    # #for healthy
-    # vf.multi_image_ROWCOL(masks_healthy, str_list_healthy, 1, 6, vmin=0.75, vmax=0.97, cmap='Wistia') 
-
-    # #%% for tumor
-    # vf.multi_image_ROWCOL(masks_tumor, str_list_tumor, 1, 6, vmin=0.75, vmax=0.97, cmap='Wistia') 
-
-
-    # #%%then plot the normalized area vs loads
-    # #this was done for the repeated experiments only as the first trial had large non-contactign area
-
-    # #plt.subplot(1, 2, 1)
-    # plt.plot(load_labels[:3], areas_healthy[3:]/areas_healthy[3],  'o--', markersize = 10, label='Healthy Tissue', color='seagreen', linewidth = 3)
-    # plt.plot(load_labels[:3], areas_tumor[3:]/areas_tumor[3],  'D--', markersize = 10,  label='Tumor Tissue', color='indianred', linewidth = 3)
-    # #plt.plot(load_labels, areas_mixed,  'o-', label='Mixed Tissue', color='gold', linewidth = 3)
-    # plt.title('Tissue area changing with load')
-    # plt.xlabel('Load (N)')
-    # plt.ylabel(r'Normalized Area ($mm^2$)')
-    # plt.legend()
-    # plt.grid(True)
-
-    # plt.xticks(rotation = 25)
-
-    # #%%
-    # #plotting the actual area
-    # #plt.subplot(1, 2, 2)
-    # plt.plot(load_labels[:3], normalized_area_healthy[3:], 'o--', markersize = 10, label='Healthy Tissue', color='seagreen', linewidth = 3)
-    # plt.plot(load_labels[:3], normalized_area_tumor[0]+normalized_area_tumor[3:], 'D--', markersize = 10, label='Tumor Tissue', color='indianred', linewidth = 3)
-    # #plt.plot(load_labels, normalized_area_mixed, 'o-', label='Mixed Tissue', color='gold', linewidth = 3)
-    # plt.title('Tissue area changing with load')
-    # plt.xlabel('Load (N)')
-    # plt.ylabel(r'Area ($mm^2$)')
-    # plt.legend()
-    # plt.grid(True)
-
-    # plt.xticks(rotation = 25)
-    # plt.tight_layout()
-    # plt.show()
-
-    # #%% COMPARING TISSUES WITH FREQUENCY EXAMPLE WITH PHASE
-
-    # H_RCOEF_W3 = average_reflection_at_frequencies(dr_healthy, 'Phase_adj', 'Sample Frequency Sweep - Weight 3 - repeat', masks_healthy[5])
-
-    # T_RCOEF_W3 = average_reflection_at_frequencies(dr_tumor, 'Phase_adj', 'Sample Frequency Sweep - Weight 3 - repeat', masks_tumor[5])
-
-
-    # plt.plot(freqs, abs(H_RCOEF_W3), label = "Healthy 1.96N load", color = 'indianred', linewidth = 3)
-    # plt.plot(freqs, abs(T_RCOEF_W3), label = "Tumor 1.96N load",  color = 'seagreen', linewidth = 3)
-
-    # plt.title(r'Average Phase vs frequency')
-    # plt.xlabel('Frequency (MHz)')
-    # plt.ylabel('Phase (radians)')
-    # plt.legend()
+    #load and process primary dataset
+    data = load_and_process_data(base_directory, typeData)
+    # calculate the derived dataset 
+    dataDE = calculate_derived_parameters(data)
+    convert_2_Image(dataDE, attr_name, output_path)
 
 if __name__ == '__main__':
     main()
