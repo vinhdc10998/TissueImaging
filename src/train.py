@@ -1,5 +1,6 @@
 import torch
 import argparse
+import albumentations as A
 
 from utils.ultrasoundDataset import UltraSoundDataset
 from sklearn.model_selection import train_test_split
@@ -12,8 +13,6 @@ def train_val_dataset(dataset, val_split=0.25):
     datasets['test'] = Subset(dataset, val_idx)
     return datasets
 
-
-
 def train():
     # Init parameter 
     data_path = './data/Dataset_BUSI_with_GT'
@@ -23,6 +22,8 @@ def train():
     ultraSoundDataset = train_val_dataset(ultraSoundDataset, 0.2)
     print(len(ultraSoundDataset['train']))
     print(len(ultraSoundDataset['test']))
+
+    # model
 
 
 if __name__ == '__main__':

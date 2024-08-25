@@ -30,13 +30,10 @@ class UltraSoundDataset(Dataset):
         # Load image and mask
         img_name, label = self.img_names[item], self.labels[item]
         img = cv2.imread(os.path.join(self.root, self.categories[label], img_name + ".png"), cv2.IMREAD_COLOR)
-        mask = cv2.imread(os.path.join(self.root, self.categories[label], img_name + "_mask.png"), cv2.IMREAD_GRAYSCALE)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        # Convert mask values from 255 (default) to 1 for binary 
-        mask[mask == 255] = 1
         # apply transformations
         if self.transform:
-            augmented = self.transform(image=img, mask=mask)
-            img, mask = augmented['image'], augmented['mask']
+            augmented = self.transform(image=img)
+            img = augmented['image']
         
-        return img, mask
+        return img
