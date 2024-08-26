@@ -8,50 +8,45 @@ import xgboost as xgb
 from sklearn.ensemble import (AdaBoostRegressor, ExtraTreesRegressor, 
                             GradientBoostingRegressor, RandomForestRegressor)
 from lightgbm import LGBMRegressor
-
-import lib.models as models
-from utils.load_data import load_train_val_public_set, load_train_val_private_set
-
+from utils.ultrasoundDataset import UltraSoundDataset
+from sklearn.model_selection import train_test_split
+from torch.utils.data import Subset
 
 class Config:
-    def __init__(self, device, is_one_hot=True, is_drop_col=False, pca_transform=0, mode='public',
-                    epochs=20, check_model='mlmodel', kfold=0, lr=5e-4, weight_decay=1e-5):
+    def __init__(self, images, device, epochs=20, type_model='mlmodel', lr=5e-4, weight_decay=1e-5, test_size=0):
         self.ML_models = self.__get_ML_models()
-        self.data = self.get_data(mode, is_one_hot, is_drop_col, pca_transform)
-        self.mode = mode
+        self.data = self.get_data(images, test_size)
         self.epochs = epochs
-        self.check_model = check_model
+        self.type_model = type_model
         self.device = device
-        self.kfold = kfold
         self.lr = lr
         self.weight_decay = weight_decay
-        self.log_path = self.get_log_path(self.check_model)
+        self.log_path = self.get_log_path(self.type_model)
     
     @staticmethod
-    def get_data(mode, is_one_hot, is_drop_col, pca_transform):
+    def get_data(images, test_size):
         """ 
-            Get public data or private data
-            Return: X_train, X_val, y_train, y_val 
+            Get images path
+            Return: UltraSoundDataset 
         """
-        if mode == 'public':
-            return load_train_val_public_set(is_one_hot=is_one_hot, 
-                                            is_drop_col=is_drop_col,
-                                            pca_transform=pca_transform)
-        elif mode == 'private':
-            return load_train_val_private_set(is_one_hot=is_one_hot, 
-                                            is_drop_col=is_drop_col,
-                                            pca_transform=pca_transform)
+        USdataset = UltraSoundDataset(images)
+        datasets = {}
+
+        if test_size == 0:
+            datasets['train'] = USdataset
+            datasets['test'] = []
+        else:
+            train_idx, val_idx = train_test_split(list(range(len(USdataset))), test_size=test_size)
+            datasets['train'] = Subset(USdataset, train_idx)
+            datasets['test'] = Subset(USdataset, val_idx)
+        return datasets
 
     @staticmethod
-    def get_model(name, *parameters, **kwargs):
-        return getattr(models, name)(*parameters, **kwargs)
-
-    @staticmethod
-    def get_log_path(check_model):
+    def get_log_path(type_model):
         logging_path = os.path.join(os.getcwd(), 'logging')
         if not os.path.exists(logging_path):
             os.mkdir(logging_path)
-        return os.path.join(logging_path, 'log_{}.txt'.format(check_model))
+        return os.path.join(logging_path, 'log_{}.txt'.format(type_model))
         
     @staticmethod
     def __get_ML_models():

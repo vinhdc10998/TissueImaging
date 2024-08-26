@@ -1,0 +1,27 @@
+[2024-08-26 23:22:05,845] [model.runner] [INFO] Model: Linear Regression
+[2024-08-26 23:22:05,845] [model.runner] [INFO] Model: Regularization L2 Linear Regression
+[2024-08-26 23:22:05,846] [model.runner] [INFO] Model: Regularization L1 Linear Regression
+[2024-08-26 23:22:05,846] [model.runner] [INFO] Model: ElasticNet
+[2024-08-26 23:22:05,846] [model.runner] [INFO] Model: MultiTask ElasticNet
+[2024-08-26 23:22:05,846] [model.runner] [INFO] Model: Support Vector Regression
+[2024-08-26 23:22:05,846] [model.runner] [INFO] Model: Decision Tree Regression
+[2024-08-26 23:22:05,846] [model.runner] [INFO] Model: XGBoost
+[2024-08-26 23:22:05,846] [model.runner] [INFO] Model: AdaBoost
+[2024-08-26 23:22:05,846] [model.runner] [INFO] Model: ExtraTreeRegressor
+[2024-08-26 23:22:05,846] [model.runner] [INFO] Model: GradientBoostingRegressor
+[2024-08-26 23:22:05,846] [model.runner] [INFO] Model: RandomForest
+[2024-08-26 23:22:05,846] [model.runner] [INFO] Model: LightGBM
+[2024-08-26 23:23:51,307] [model.runner] [INFO] RUN MACHINE LEARNING MODELS
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: Linear Regression
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: Regularization L2 Linear Regression
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: Regularization L1 Linear Regression
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: ElasticNet
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: MultiTask ElasticNet
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: Support Vector Regression
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: Decision Tree Regression
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: XGBoost
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: AdaBoost
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: ExtraTreeRegressor
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: GradientBoostingRegressor
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: RandomForest
+[2024-08-26 23:23:51,307] [model.runner] [INFO] Model: LightGBM

@@ -18,3 +18,9 @@ class Runner():
         stream_handler.setFormatter(formatter)
         logging.basicConfig(level=logging.DEBUG, handlers=[file_handler, stream_handler])
         self.logger = logging.getLogger(__name__)
+
+    def run(self):
+        if self.cfg.type_model == 'mlmodel':
+            self.logger.info("RUN MACHINE LEARNING MODELS")
+            for model, name in self.cfg.ML_models:
+                    self.logger.info(f'Model: {name}')
