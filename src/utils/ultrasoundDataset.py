@@ -36,4 +36,4 @@ class UltraSoundDataset(Dataset):
             augmented = self.transform(image=img)
             img = augmented['image']
         
-        return img
+        return img, label
