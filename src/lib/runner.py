@@ -30,16 +30,15 @@ class Runner:
         self.logger.info("RUN DEEP LEARNING MODELS")
         self.logger.debug(f"DEVICE-IN-USE: {self.cfg.device}")
 
-        train_loader = DataLoader(self.cfg.data['train'], batch_size=batch_size, shuffle=False, pin_memory=True)
+        train_loader = DataLoader(self.cfg.data['train'], batch_size=self.batch_size, shuffle=False, pin_memory=True)
         start_epochs = 1
         self.model.train()
-        for epoch in range(start_epochs, self.epochs()+1):
+        for epoch in range(start_epochs, self.epochs + 1):
             self.logger.info(f"EPOCHS {epoch}")
             running_loss = 0.0
 
             for batch, (X, y) in enumerate(train_loader):
                     X, y = X.to(self.cfg.device), y.to(self.cfg.device)
-                    
                     self.optimizer.zero_grad()
                     prediction = self.model(X)
                     loss = self.loss(prediction, y)
