@@ -9,7 +9,7 @@ class Runner:
         self.cfg = cfg
         self.setup_logging()
         self.model = DeepLearningModel(cfg)
-        self.loss = torch.nn.BCEWithLogitsLoss()
+        self.loss = torch.nn.CrossEntropyLoss()
         self.optimizer = torch.optim.Adam(self.model.parameters(), cfg.lr)
         self.scheduler = torch.optim.lr_scheduler.ExponentialLR(self.optimizer, gamma=0.995)
         self.epochs = cfg.epochs
@@ -41,6 +41,14 @@ class Runner:
                     X, y = X.to(self.cfg.device), y.to(self.cfg.device)
                     self.optimizer.zero_grad()
                     prediction = self.model(X)
+                    # print(prediction.shape, y.shape)
+                    # print(torch.argmax(prediction, dim=1))
+                    # print()
+                    # print(torch.unique(torch.argmax(prediction, dim=1)), torch.unique(y))
+                    # a = prediction
+                    # b = y
+                    # print(prediction)
+                    # print(b)
                     loss = self.loss(prediction, y)
                     loss.backward()
                     self.optimizer.step()

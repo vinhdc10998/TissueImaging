@@ -7,12 +7,12 @@ from torch import nn
 from torch.utils.data import Dataset, DataLoader
 
 class UltraSoundDataset(Dataset):
-    def __init__(self, root="./data/Dataset_BUSI_with_GT", transform=None):
+    def __init__(self, root="./data/Dataset_BUSI_with_GT", transform=None, classes = None):
         # Initialize dataset paths and parameters
         self.root = root
         self.img_names = []
         self.transform = transform
-        self.categories = ['normal', 'benign', 'malignant']
+        self.categories = classes
         self.labels = []
         
         # Collect image names and labels for each category
@@ -33,7 +33,6 @@ class UltraSoundDataset(Dataset):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         # apply transformations
         if self.transform:
-            augmented = self.transform(image=img)
-            img = augmented['image']
+            img = self.transform(img)
         
         return img, label

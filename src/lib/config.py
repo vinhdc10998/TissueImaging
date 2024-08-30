@@ -1,28 +1,38 @@
 import os
+import torchvision.transforms as transforms
 
 from utils.ultrasoundDataset import UltraSoundDataset
 from sklearn.model_selection import train_test_split
 from torch.utils.data import Subset
 
+
 class Config:
     def __init__(self, images, device, epochs=20, type_model='mlmodel', lr=5e-4, batch_size=32, test_size=0):
-        self.data = self.get_data(images, test_size)
         self.epochs = epochs
         self.type_model = type_model
         self.device = device
         self.lr = lr
         self.batch_size = batch_size
         self.log_path = self.get_log_path(self.type_model)
-        self.classes = ['normal', 'disease']
+        self.classes = ['normal', 'benign']
         self.model = 'resnet50'
-    
+        self.data = self.get_data(images, test_size, self.classes)
+
     @staticmethod
-    def get_data(images, test_size):
+    def get_data(images, test_size, classes):
         """ 
             Get images path
             Return: UltraSoundDataset 
         """
-        USdataset = UltraSoundDataset(images)
+        img_size = (224, 224)
+
+        transform = transforms.Compose(
+        [transforms.ToTensor(),
+         transforms.Resize(img_size),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+
+
+        USdataset = UltraSoundDataset(images, transform, classes)
         datasets = {}
 
         if test_size == 0:
