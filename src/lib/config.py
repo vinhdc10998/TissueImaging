@@ -31,7 +31,6 @@ class Config:
          transforms.Resize(img_size),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-
         USdataset = UltraSoundDataset(images, transform, classes)
         datasets = {}
 

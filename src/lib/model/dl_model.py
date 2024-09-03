@@ -28,7 +28,4 @@ class DeepLearningModel(nn.Module):
         return self.model(image)
         
     def forward(self, image):
-        # embeddings = self.features(image)
-        # x = self.dropout(embeddings)
-        # output = self.fc(x)
         return self.model(image)
