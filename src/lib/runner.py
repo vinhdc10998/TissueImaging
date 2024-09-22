@@ -19,7 +19,6 @@ class Runner:
             'recall': 0,
             'f1_score': 0,
             'precision': 0
-
         }
 
     def setup_logging(self):
@@ -40,8 +39,7 @@ class Runner:
 
     def train(self):
         self.logger.info("RUN DEEP LEARNING MODELS")
-        self.logger.debug(f"DEVICE-IN-USE: {self.cfg.device}")
-        self.logger.info(f"USE DEVICE {self.cfg.device}")
+        self.logger.info(f"DEVICE-IN-USE: {self.cfg.device}")
         train_loader = DataLoader(self.cfg.data['train'], batch_size=self.batch_size, shuffle=False, pin_memory=True)
         start_epochs = 1
         self.model.train()
@@ -50,16 +48,25 @@ class Runner:
             running_loss = 0.0
             predictions = []
             labels = []
-            for batch, (X, y) in enumerate(train_loader):
-                    X, y = X.to(self.cfg.device), y.to(self.cfg.device)
+            y_list = []
+            for batch, dict_items in enumerate(train_loader):
+                    total_y = 0
+                    y = dict_items['label'].to(self.cfg.device)
+                    X = (dict_items['weight_1'], dict_items['weight_2'], dict_items['weight_3'])
                     self.optimizer.zero_grad()
-                    y_hat = self.model(X)
-                    loss = self.loss(y_hat, y)
+                    j = 0
+                    for i in X:
+                        if not i.all():
+                            j+=1
+                            x = i.to(self.cfg.device)
+                            y_hat = self.model(x)
+                            total_y += y_hat
+                    loss = self.loss(total_y/j, y)
                     loss.backward()
                     self.optimizer.step()
                     running_loss += loss.item()
 
-                    predictions.append(torch.argmax(y_hat, dim=1))
+                    predictions.append(torch.argmax(total_y/j, dim=1))
                     labels.append(y)
 
             predictions = torch.cat(predictions, dim=0).cpu().detach().numpy()

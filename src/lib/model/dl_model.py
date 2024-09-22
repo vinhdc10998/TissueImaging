@@ -12,14 +12,7 @@ class DeepLearningModel(nn.Module):
             in_chans=inp_channels
         )
         self.softmax = nn.Softmax(dim=1)
-        # n_features = self.model.head.in_features
-        # self.model.head = nn.Linear(n_features, 256)
-        # self.fc = nn.Sequential(
-        #     nn.Linear(256, 64),
-        #     nn.ReLU(),
-        #     nn.Linear(64, len(cfg.classes))
-        # )
-        # self.dropout = nn.Dropout(dropout)
+
         
     def features(self, image):
         '''

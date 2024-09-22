@@ -10,7 +10,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Tissue Imaging")
     parser.add_argument("model", choices=["mlmodel", "dlmodel", "all"], 
                         help="ML Model, DL Model or Run all Models?")
-    parser.add_argument("--images", type=str, default='./data/Dataset_BUSI_with_GT', help="path of tissue image")
+    parser.add_argument("--data", type=str, default='./data/Dataset_BUSI_with_GT/train.csv', help="path of metadata")
     parser.add_argument("--lr", type=float, default=5e-4, help="Learning Rate (Default: 5e-4)")
     parser.add_argument("--batch_size", type=int, default=32, help="Batch Size (Default: 32)")
     parser.add_argument("--epochs", type=int, default=50, help="Epochs to test the model on (Default: 50)")
@@ -25,8 +25,8 @@ def train():
     # Init parameter 
     args = parse_args()
     device = torch.device('cpu') if not torch.cuda.is_available() or not args.gpu else torch.device('cuda')
-    cfg = Config(args.images, device, args.epochs, args.model, args.lr, args.batch_size, test_size=0.2)
-
+    cfg = Config(args.data, device, args.epochs, args.model, args.lr, args.batch_size, test_size=0.2)
+    # print(next(iter(cfg.data)))
     if args.model in ['all', 'mlmodel', 'dlmodel']:
         try:
             runner = Runner(cfg)

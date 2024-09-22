@@ -77,7 +77,7 @@ def load_and_process_data(base_directory, experiment):
         }
 
         for freq in freqs:  # Ensuring we cover the complete range
-            if freq in frequency_data and all(frequency_data[freq][key] is not None for key in ['I_Echo', 'Q_Echo', 'I_NoEcho', 'Q_NoEcho']):
+            if freq in frequency_data and all(frequency_data[freq][key] is not np.nan for key in ['I_Echo', 'Q_Echo', 'I_NoEcho', 'Q_NoEcho']):
                 freq_data = frequency_data[freq]
                 i_echo = np.array(freq_data['I_Echo'])
                 q_echo = np.array(freq_data['Q_Echo'])
@@ -171,7 +171,7 @@ def plot_parameter_vs_frequency_at_pixel(derived_data, mode, parameter, pixel=(6
     values = derived_data[mode][parameter]
 
     # Extract values for the specific pixel, assuming values are stored in 2D array format for each frequency
-    pixel_values = [val[pixel[0], pixel[1]] if val is not None else None for val in values]
+    pixel_values = [val[pixel[0], pixel[1]] if val is not np.nan else None for val in values]
 
     # Plotting
     
